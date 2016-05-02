@@ -3,34 +3,56 @@ import string
 import sys
 import csv
 import msvcrt
+import nltk
+
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
+from keras.optimizers import SGD
+
+model = Sequential()
+# Dense(64) is a fully-connected layer with 64 hidden units.
+# in the first layer, you must specify the expected input data shape:
+# here, 20-dimensional vectors.
+model.add(Dense(64, input_dim=20, init='uniform'))
+model.add(Activation('tanh'))
+model.add(Dropout(0.5))
+model.add(Dense(64, init='uniform'))
+model.add(Activation('tanh'))
+model.add(Dropout(0.5))
+model.add(Dense(10, init='uniform'))
+model.add(Activation('softmax'))
+
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy',
+              optimizer=sgd,
+              metrics=['accuracy'])
+
+model.fit(X_train, y_train,
+          nb_epoch=20,
+          batch_size=16)
+score = model.evaluate(X_test, y_test, batch_size=16)
+
+
 num = 0
 outputstring = ""
 #done = False
 
 #input4 is good job boolean
-gj_inputboolean = False
-while True:
-    print (num)
-    num += 1
-    outputstring = speak()
-    if msvcrt.kbhit() and msvcrt.getch() == b'g':
-        print ("you pressed",msvcrt.getch(),"so now i will quit")
-        gj_inputboolean = True
-        #done = True
+# gj_inputboolean = False
+# while True:
+#     print (num)
+#     num += 1
+#     outputstring = speak()
+#     if msvcrt.kbhit() and msvcrt.getch() == b'g':
+#         print ("you pressed",msvcrt.getch(),"so now i will quit")
+#         gj_inputboolean = True
+#         #done = True
     
 
-# from keras.models import Sequential
-
-# from keras.layers.core import Dense, Activation
-
-# model = Sequential()
-
-# encoder = Sequential([GRU(26, activation='relu', inner_activation='hard_sigmoid', input_dim=20, return_sequences=True)])
 
 
 
 
-# model.add(Dense())
 
 #input1 is 20 entry array of letters of each word
 letterinputarray = []
@@ -38,16 +60,7 @@ letterinputarray = []
 #input2 is complete word (string)
 wordinputstring = ""
 
-#input3 is 3-grams (array of string)
-
-
-def shouldIspeak(output):
-
-
-def speak(weights, inputs):
-	global output
-	if shouldIspeak(output) == True:
-	print(output)
+#input3 is 2-grams (array of string)
 
 
 
@@ -55,21 +68,16 @@ def speak(weights, inputs):
 lettermemory = [ch for ch in string.ascii_lowercase]
 # print(lettermemory)
 
-# #middle layer for words
-# wordmemory = ['hey', 'there', 'little', 'baby', 'you', 'are', 'cute', 'say', 'daddy']
 
 
 
+# class Neuron:
+# 	def __init__(self, neuronID, listOfWeights):
+# 		self.neuronID = neuronID
+# 		self.listOfWeights = []
 
-
-
-class Neuron:
-	def __init__(self, neuronID, listOfWeights):
-		self.neuronID = neuronID
-		self.listOfWeights = []
-
-class WordNeuron(Neuron):
-	def __init__(self, neuronID, listOfWeights):
+# class WordNeuron(Neuron):
+# 	def __init__(self, neuronID, listOfWeights):
 
 
 
