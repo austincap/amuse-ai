@@ -1,14 +1,69 @@
 #input_vector = [letter, unigram, bigram]
 import csv
-import math
-
-parent_speech = input('type a sentence to the AI: ')
-
-speech_array = parent_speech.split()
+import math, random
+import numpy as np
+import string
 
 
 
 
+"""Compute softmax values (probabilities) for each sets of scores in x."""
+def softmax(x):
+	return np.exp(x) / np.sum(np.exp(x), axis=0)
+
+def file_len(fname):
+	with open(fname) as f:
+		for i, l in enumerate(f):
+			pass
+	return i+1
+
+def letterActivationFunction(array_of_letters):
+	with open("listOfLetterActivation.txt", "r+") as myfile:
+		for letter in array_of_letters:
+			for enum, asciichar in enumerate(string.ascii_lowercase):
+				print(enum)
+				if asciichar == letter:
+					print("activate " + asciichar)
+
+def main():
+	gj = input('type a 1 or 0 based on quality of AI output: ')
+	parent_speech = input('type a sentence to the AI: ')
+
+	speech_array = parent_speech.split()
+	print(speech_array)
+
+	for word in speech_array:
+		input_vector = []
+		unigram_input_vector=[]
+
+		with open("wordmems2.txt", "r+") as myfile:
+			word_dim = file_len("wordmems2.txt")
+			for i, line in enumerate(myfile, 1):
+				if word+"\n" in line:
+					unigram_input_vector = [0] * word_dim
+					unigram_input_vector[i] = 1
+					break
+			else: # else in python for loop???!!
+				myfile.write(word+"\n") # append missing data
+				unigram_input_vector = [0] * word_dim
+				unigram_input_vector[-1] = 1
+
+		letter_input_vector = []
+		for letter in word:
+			letter_input_vector += [letter]
+		
+		letterActivationFunction(letter_input_vector)
+		input_vector = [letter_input_vector, unigram_input_vector, gj]
+		print(input_vector)
+
+	word_output_vector = [0.9,0,0,0,0.9]
+
+	output_string = "test"
+	print(output_string)
+
+	main()
+
+main()
 #type something to it
 
 #let it process your line of text
@@ -56,26 +111,20 @@ def sigmoid(t):
 def neuron_output(weights, inputs):
 	return sigmoid(dot(weights, inputs))
 
+# def feed_forward(neural_network, letter_array, word_array, gj_value):
+# 	"""takes in neural net as a list of lists of lists of weights
+# 	and returns output from forward propagating the input"""
 
-letter_layer = [[random.random() for __ in range(num_letters)] for __ in range(num_words)]
+# 	outputs = []
 
-output_layer = [[random.random() for __ in range(num_output_words)] for __ in range(AI_brain_size)]
+# 	for layer in neural_network:
+# 		input_bias = input_vector + [1]
 
-for word in speech_array:
-	for letter in word:
-		activateLetterFunction(letter)
-	# Open for read+write
-	with open("wordmems2.txt", "r+") as myfile:
+#  math.tanh(x)
 
-	    # A file is an iterable of lines, so this will
-	    # check if any of the lines in myfile equals line+"\n"
-	    if word+"\n" not in myfile:
-	        # Write it; assumes file ends in "\n" already
-	        myfile.write(word+"\n")
+# letter_layer = [[random.random() for __ in range(num_letters)] for __ in range(num_words)]
 
-	#myfile.write(line+"\n") can also be written as
-	# Python 3
-	#print(line, file=myfile)
+# output_layer = [[random.random() for __ in range(num_output_words)] for __ in range(AI_brain_size)]
 
 
 
