@@ -9,3 +9,9 @@ Details: For now, all sentences must consist of 6 words with no punctuation. The
 
 Questions: I'm not sure whether or not to track the letters along with each newly learned word.
 
+![amuse-ai](https://github.com/austincap/amuse-ai/blob/master/amuse-ai.png "amuse-ai")
+amuse-ai explained
+
+![amuse-ai-example](https://github.com/austincap/amuse-ai/blob/master/amuse-ai%20-%20example.png "amuse-ai-example")
+amuse-ai concrete example
+
